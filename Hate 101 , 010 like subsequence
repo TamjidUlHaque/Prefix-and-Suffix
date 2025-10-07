@@ -1,0 +1,61 @@
+/*Intuition :-
+    Ekhane problem e bola hoise shorbo-nimno koyta bit flip korar maddhome amra
+    emon ekta string generate korte parbo jei string er moddhe 101 ba 010 ei type
+    er kuno subsequence thakbe nah .
+
+    Eita solve korar jonno amra duita array toiri korechi . Ekta prefix array arekta
+    suffix array . Era 1 based indexing niye toiri and eder kaaj holo shuru theke 
+    currentIndex(i) porjonto koto gula 1 asche eitar hishab rakha and sesh theke 
+    currentIndex (n-i-1) porjonto koto gula 1 asche eitar hishab kore rakha .
+
+    Erpore shob cheye mulpart jeita holo answer calculation . Answer calculation
+    er loop ta cholbe 1 theke n porjonto . 
+    
+    i) ans = min(ans,i-prefix[i]+suffix[i+1]) ; Ei line tar mane holo i porjonto
+    i ta 1 thakar kotha , prefix[i] er mane holo i porjonto eto gula 1 ache , 
+    suffix[i+1] er mane holo i er pore o eto gula 1 ache . Ekhon prothome jotogula
+    1 ache dhore nilam shobgula amader nije operation kore 1 banate hobe . Tai +i .
+    Ekhon ashole joto gula prefix[i] e ache oi gula amader nije korte hobe na , eita
+    bujhte pere amra -prefix[i] korlam . Ekhon suffix[i+1] e je 1 gula ache oigula ke
+    abar flip kore amader ke 0 banate hobe . Tar mane suffix[i+1] operation amader abar
+    nijeder korte hobe . [{(i-prefix[i]+suffix[i+1])}] er sarmomo holo eita .
+
+    ii) ans = min(ans,(n-i)+prefix[i]-suffix[i+1]) . Ei expression e (n-i) ta 1 amader
+    banate hobe dhore newa hoise . Ekhon prefix[i] e already joto gula 1 ache oigula to
+    0 houwa dorkar . Oi gula ke o amader nijeder ke operation kore 0 banate hobe tai,
+    (n-i) + prefix[i] . Ekhon suffix[i+1] e joto gula 1 ache oigular jonno (n-i) er shob
+    gula operation amader korte hobe nah . Jemon , 
+
+    7 length er array er 4 no index e n-i er value holo 3 . Ekhon 3 ta 1 amader ke
+    flip kore banate hobe , jodi suffix[i+1] jeita n-i porjonto index er value ke cover 
+    korteche ta jodi janiye dey  already amader kache 2 ta 1 --> (5,6,7) index er moddhe
+    ache tahole to ar amader notun kore opeartion er chintar dorkar nei . Ar 4 th index
+    porjonto joto gula value 1 ache oigula 0 korar opeartion prefix[i] janiye ditese .
+
+    Muloto amra ekhane joto tomo index e visit kortesi thik totogula prefix e thakle ba
+    suffix e thakle koyta opeartion korar proyojon porbe oitar hishab nikash kortesi .
+    
+
+*/
+
+void giveMeMyGloryBack() {
+    string s ; cin >> s ; ll n = len(s) ;
+    ll one = count(all(s),'1') ; ll zero = count(all(s),'0') ;
+    if(n == one or n==zero){
+        cout << 0 << endl ; return ;
+    }
+    
+    ll ans = min(one,zero) ; vll prefix(n+2,0LL) , suffix(n+2,0LL) ;
+    
+    for(int i = 0 ; i < n ; i++) prefix[i+1] = prefix[i] + (s[i] == '1') ;
+    
+    for(int i = n ; i > 0 ; i--) suffix[i] = suffix[i+1] + (s[i-1] == '1') ;
+    
+    for(int i = 1 ; i <= n ; i++){
+        ans = min(ans,i-prefix[i]+suffix[i+1]) ;
+        ans = min(ans,(n-i)+prefix[i]-suffix[i+1]) ;
+    }
+
+    cout << ans << endl ;
+
+}
