@@ -1,0 +1,27 @@
+/*Intuition :-
+    Ekhane problem e bola hoise je amader ke ekta string dewa hobe jekhane w ke duita
+    v diye prokash kora hoise . Amader ke bolte hobe oi string theke subsequence niye
+    sorbuchho koyta "WOW" toiri korte parbo .
+
+    Ei question ta solve korte amra prefix suffix array technique er help niyechi .
+    Er maddhome amra count of W before that O and count of W after that O preCalculate
+    kore rakhsi . Proti ta O er jonno (pref[W] till that idx) * (suff[W] till that idx)
+    kore answer e add korechi . Karon eivabe shobgula newar possibility hishab kore .
+*/
+
+void giveMeMyGloryBack() {
+    string s ; cin >> s ; ll n = len(s) ; vll pref(n+2,0) , suff(n+2,0) ;
+    for(int i = 1 ; i < n ; i++){
+        if(s[i]==s[i-1] and s[i]=='v') pref[i]++ ;
+        pref[i] += pref[i-1] ;
+    }
+    for(int i = n-2 ; i >= 0 ; i--){
+        if(s[i]==s[i+1] and s[i+1]=='v') suff[i]++ ;
+        suff[i] += suff[i+1] ;
+    }
+    ll answer = 0 ;
+    for(int i = 0 ; i < n ; i++){
+        if(s[i]=='o') answer += (pref[i]*suff[i]) ;
+    }
+    cout << answer << endl ;
+}
